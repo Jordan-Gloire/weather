@@ -1,39 +1,41 @@
 "use client"
 import Axios from 'axios'
-// import 'animate.css';
-import { useState } from 'react';
+import Link from 'next/link';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import photo from '../../public/weather02-512.webp'
 import Icon from '@ant-design/icons';
-import {SearchOutlined,ClockCircleOutlined } from '@ant-design/icons'
+import { SearchOutlined, ClockCircleOutlined,ArrowLeftOutlined  } from '@ant-design/icons'
+
 export default function Meteo() {
-    const dateActuelle = new Date();
-    const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-    const dateFormatee = dateActuelle.toLocaleDateString('fr-FR', options);
+    
     const [city,setCity] = useState("")
-    const [data,setData] = useState()
+    const [data, setData] = useState()
+    const [iserro, setIserro] = useState(false)
     const key = "8ae78a17c1238a3798ca84fc120a71fa" 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+    const lang = "fr"
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=${lang}&appid=${key}`
+    
     const fetchData = async () => {
-        let errreur = "Veuillez vérifier l'hortographe ou entrer une ville  svp !"
+        let errreur = "Erreur! Veuillez verifier l'hortographe ou saississez le nom d'une ville valable."
         try {
             const response = await Axios.get(url)
             setData(response.data);
-            console.log(data);
+            console.log(data);    
         } catch (error) {
-            alert(errreur );
+           // alert(errreur);
+            alert(errreur)
         }
+        
     }
-    const now = new Date();
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-
-    console.log(`Il est actuellement ${hours}:${minutes}:${seconds}`);
+    
     return (
         <>
             <div className='bg-gray-50 h-screen'>
-                <p className='px-10 pt-4'> | {dateFormatee} / {hours}h</p>
+                <div className='flex justify-between items-center'>
+                    <Link className='px-10 pt-4 text-2xl' href={`/`}><ArrowLeftOutlined /></Link>
+                    <p className='px-10 pt-4'> | météoCG</p>
+                </div>
                 
                 <div className='flex justify-center items-center pt-10'>
                     <input
@@ -51,23 +53,28 @@ export default function Meteo() {
                 <div className='  text-center ' >
                     {
                         data && (
-                            <div className=''>
-                                <h1 className='text-2xl font-bold pt-8'>{data.name},{data.sys.country}</h1>
-                                <Image src={`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`} alt='ok' height={100} width={75} className='w-36 mx-auto' />
-                                <p className='text-2xl'>{data.weather[0].main}</p>
-                                <p className='text-2xl'>{data.weather[0].description}</p>
-                                <p className='text-2xl'>{data.weather.main}</p>
-                                <p className='text-2xl'>{data.weather.description}</p>
-                                <p className='text-6xl font-bold text-black pt-8'>{Math.round(data.main.temp / 10 * 10)/ 10}°</p>
-                                <p className='text-2xl'>Humidité: {data.main.humidity}%</p>
-                                <p className='text-2xl'>Vent: {data.wind.speed}</p>
-                                
-                            </div>
                             
+                            <div className=''>
+                                <div className=''>
+                                    <h1 className='text-2xl font-bold pt-8'>{data.name},{data.sys.country}</h1>
+                                    <Image src={`https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`} alt='ok' height={100} width={75} className='w-36 mx-auto' />
+                                    <p className='text-2xl'>{data.weather[0].main}</p>
+                                    <p className='text-2xlfont-semibold'>{data.weather[0].description}</p>
+                                    
+
+                                </div>
+                                <p className='text-2xl font-semibold'>{data.weather.main}</p>
+                                <p className='text-6xl font-bold text-black pt-8'>{Math.round(data.main.temp / 10 * 10)/ 10}°</p>
+                                <p className='text-2xl font-semibold'>Humidité: {data.main.humidity}%</p>
+                                <p className='text-2xl font-semibold'>Lever du soleil: {new Date(data.sys.sunrise * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                                <p className='text-2xl font-semibold'>Coucher du soleil {new Date(data.sys.sunset * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                                
+                                <p className='text-2xl font-semibold'>Vent: {data.wind.speed} m/s</p>
+                            </div>
                         )
                     }
-                    
                 </div>
+                
                     
             </div>
         </>
