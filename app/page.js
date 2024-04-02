@@ -23,6 +23,7 @@ const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric
   return (
     <>
       <div className="absolute top-0 bottom-0 left-0 right-0 bg-black/60 z-[1] flex justify-center items-center flex-col">
+      <p className="text-6xl text-white font-bold">{formattedTime}</p>
         <Carousel autoplay className="w-screen mx-8 text-white text-2xl">
             <div>
             <h3 style={contentStyle}>
