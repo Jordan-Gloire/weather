@@ -52,7 +52,7 @@ const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric
               </h3>
             </div>
         </Carousel>
-        <Link href={`/Meteo`} className="bg-cyan-600 mt-8 text-white hover:text-black duration-700 ease-in rounded-md outline-none border-none py-2 px-6 text-lg">Voir la météo</Link>
+        <Link href="/Meteo" className="bg-cyan-600 mt-8 text-white hover:text-black duration-700 ease-in rounded-md outline-none border-none py-2 px-6 text-lg">Voir la météo</Link>
       </div>
       <Image src={imgdeFond} className="h-screen w-screen object-cover"/>
     </>
