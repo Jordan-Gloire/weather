@@ -33,7 +33,7 @@ export default function Meteo() {
         <>
             <div className='bg-gray-50 h-screen'>
                 <div className='flex justify-between items-center'>
-                    <Link className='px-10 pt-4 text-2xl' href={`/`}><ArrowLeftOutlined /></Link>
+                    <Link className='px-10 pt-4 text-2xl' href="/"><ArrowLeftOutlined /></Link>
                     <p className='px-10 pt-4'> | météoCG</p>
                 </div>
                 
